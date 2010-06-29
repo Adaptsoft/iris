@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: jtds-1.2.2.jar HTTPClient.jar ntlm.jar cryptix-jce-api.jar cryptix-jce-compat.jar cryptix-jce-provider.jar cryptix-jce-tests.jar
+Main-Class: aida

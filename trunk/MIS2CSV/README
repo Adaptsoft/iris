@@ -1,0 +1,5 @@
+
+To build:
+
+javac -classpath HTTPClient.jar:jtds-1.2.2.jar:ntlm.jar:cryptix-jce-api.jar:cryptix-jce-compat.jar:cryptix-jce-provider.jar:cryptix-jce-tests.jar *.java
+jar -cfm aida.jar Manifest.txt *.class
