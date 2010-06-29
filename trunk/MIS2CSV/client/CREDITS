@@ -1,0 +1,9 @@
+
+First version: John Main - spanners@gmail.com (http://www.thedaddy.org/)
+Initial planing and NTLM support added by: Andrew Rose - email@andrewrose.co.uk (http://blog.andrewrose.co.uk)
+
+Packages MIS2CSV depends on:
+ CSVReader - Copyright 2005 Bytecode Pty Ltd.
+ Cryptix - http://www.cryptix.org/
+ jtds - http://jtds.sourceforge.net/
+ HTTPClient - Copyright (C) 1996-2001  Ronald Tschal�r (http://www.innovation.ch/java/HTTPClient/)
