@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Luigi Dragone Home Page - NTLM Authentication in Java</title>
+<link rel="stylesheet" href="../mystyle.css" type="text/css">
+<link rel="shortcut icon" href="../myicon.ico">
+<meta name="author" content="Luigi Dragone">
+<meta name="description" content="100% Pure Java implementation of NTLM authentication protocol">
+<meta name="keywords" content="NTLM, Java, security, proxy, authentication, JCE, Web Services, CORBA, SOAP, HTTP, DES, MD4, firewall, Microsoft">
+<base target="_top">
+</head>
+<body>
+<h1>NTLM Authentication in Java</h1>
+
+<h4>by Luigi Dragone [<a href="mailto:luigi@luigidragone.com">e-Mail</a>] [<a href="http://www.luigidragone.com/">Home Page</a>]</h4>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#change-log">Change log</a></li>
+<li><a href="#ntlm">The NTLM Authentication Protocol</a></li>
+<li><a href="#relase-notes">Release Notes</a></li>
+<li><a href="#system-requirements">System requirements</a></li>
+<li><a href="#download">Download</a></li>
+<li><a href="#instructions">Instructions</a></li>
+<li><a href="#links">Links</a></li>
+</ul>
+<h2><a name="overview">Overview</a></h2>
+<p>
+This is "100% Pure Java" implementation of the MS NTLM authentication protocol.
+</p>
+<p>
+NTLM is a proprietary protocol employed by many Microsoft products to perform
+challange response authentication and it is the default authetication scheme
+used by Microsoft firewall and proxy server products.
+</p>
+<p>
+This software has been developed to issue the problem of work with Java
+technologies in strongly Microsoft oriented enviroments. Since it not relies
+over any official protocol specification there are any warranties that it works
+correctly in every situation. It has been on same Windows installation, where
+it worked fine.
+</p>
+<p>
+This software is released under GNU General Public License. It can be freely
+used, modified and distributed in conformity with the GNU General Public License.
+The License Agreement is available <a href="GPL.txt">here</a>.
+For any information about the GNU GPL and its implications please see
+<a href="http://www.gnu.org/licenses/licenses.html#GPL">here</a>.
+</p>
+<p>
+The content of this site is provided "AS IS" without warranties of any kind
+either express or implied. Please send me any comment or suggestion and report
+me any bug you notice.
+</p>
+<p>
+To contact me please send an e-mail to <a href="mailto:luigi@luigidragone.com">
+luigi@luigidragone.com</a>. <br>
+Click <a href="http://www.luigidragone.com/">here</a> to go to my home page
+(in Italian).
+<h2><a name="change-log">Change log</a></h2>
+<ul>
+<li> Release 1.1c <span class="date">27 Oct 2002</span><br>
+Problem on exception raising in method <code>NTLMAuthorizationHandler.fixupAuthorizationInfo()</code> was fixed.</li>
+<li> Release 1.1b <span class="date">5 Oct 2002</span><br>
+Problem on invalid invocation of method <code>NTLM.getNonce()</code> was fixed.</li>
+<li> Release 1.1a <span class="date">2 Sep 2002</span><br>
+Problem on computing Lan Man password was fixed.</li>
+<li>Release 1.1 <span class="date">29 Mar 2002</span><br>
+Added new class <code>NTLMTestClient</code></li>
+<li>Release 1.0a <span class="date">21 Mar 2002</span><br>
+Problem on <code>NTLM.computeNTLMResponse()</code> method was fixed.</li>
+<li>First release (1.0) <span class="date">3 Feb 2002</span></li>
+</ul>
+<h2><a name="ntlm">The NTLM Authentication Protocol</a></h2>
+<p>
+Since there is any official specification of the NTLM protocol publicly
+available the only products that support it are released by Microsoft itself
+(e.g., Internet Explorer, Windows OSs family). As consequence, in Microsoft
+oriented network enviroment nearly all non-MS products have a lot of troubles to
+perform their tasks correctly.
+</p>
+<p>
+For example, Netscape Navigator and other common Internet browser do not support
+NTLM authetication scheme, thus they can not access to the Internet through a
+Microsoft proxy server or firewall. The only browser that can do this is,
+evidently, Internet Explorer.
+</p>
+<p>
+Software development enviroments suffer from the aforementioned problem, there
+is not any library that implements this authentication scheme except these ones
+bundled in Windows OS.
+In the Open Source community there are many projects focused on the
+implementation of this protocol, but any of these has Java as target enviroment.
+</p>
+<p>
+The lack of the availability of this authentication scheme in the Java platform
+could be a seriuos trouble in the development and deployment of cooperative
+applications based on technologies like SOAP Web Services, that rely on HTTP
+protocol. Take into account that spreading of CORBA technology has been
+definitively halted by its problems to work with firewalls and proxies.
+</p>
+<p>
+To perform a NTLM authentication in Java there are two main alternatives:
+<ol>
+<li>employ the class <code>com.ms.net.wininet.WininetStreamHandlerFactory</code>,
+provided by Microsoft Java VM;</li>
+<li>employ a native OpenSource implemenation of NTLM by JNI;</li>
+</ol>
+</p>
+<p>
+The first solution requires to work with Microsoft Java VM exclusively, since
+the class <code>com.ms.net.wininet.WininetStreamHandlerFactory</code> is a
+wrapper of some native functions in <code>Wininet.dll</code>, but the calling
+convention is not JNI compatible, but it is performed by the stub
+<code>javart.dll</code> according to the proprietary Microsoft J/Direct interface.
+The other is not obviously "100% Pure Java", because it requires native code.
+</p>
+<p>
+Since NTLM is finally a weak protocol (it is more safe than basic
+authentication, but it is not strong as the digest autentication), there are
+many cracking tools and many security issues ralated to it. It has been
+replaced by a new version in the SP3 of NT and by the Kerberos protocol in
+Windows 2000, but it is the only protocol supported by Windows 95/Windows 98
+clients.
+</p>
+<p>
+Decriptions of the protocol are available
+<a href="http://www.innovation.ch/java/ntlm.html">here</a> and
+<a href="http://www.l0pht.com/">here</a>.
+Notice that they are obtained from an analysis of sniffed packets.
+</p>
+<h2><a name="relase-notes">Release Notes</a></h2>
+<p>
+This package contains three classes:
+<ol>
+<li><code>NTLM</code> that implements all the computation required by the
+protocol;</li>
+<li><code>NTLMAuthorizationHandler</code> that implements NTLM authentication
+over HTTP;</li>
+<li><code>NTLMTestClient</code> that is command line tool that shows how to
+use this library.</li>
+</ol>
+<p>
+It requires a JCE compatible MD4 hash algorithm implementation and
+DES with no-padding ECB cipher to compute the requested value.
+An Open Source JCE compatible library is Cryptix JCE and it is available
+<a href="http://www.cryptix.org/">here</a>.  Notice that the Sun JCE
+implementation proviedes the DES cipher but does not provide the MD4 hashing (it
+is a weak hashing algorithm, definitively).
+</p>
+<p>
+The HTTP authentication component is a module for the HTTPClient library.
+HTTPClient is an Open Source HTTP client written by Ronald Tschal&auml;r,
+release under the GNU LGPL and it is available following this
+<a href="http://www.innovation.ch/">link</a>. It can be configured to replace
+the standard Sun HTTP client completely.
+</p>
+<p>
+To perform NTLM authentication over a protocol different from HTTP (e.g., FTP or
+Telnet) you need to write the required code employing functions implemented in
+<code>NTLM</code>.
+</p>
+<p>
+Notice that NTLM is not a proxyable protocol, it can be used to authenticate a
+client against a proxy or a web site, but not both at the same time.
+</p>
+<h2><a name="system-requirements">System requirements</a></h2>
+<p>
+This library requires the following components completely installed to work
+properly:
+<ul>
+<li>a JCE-compliant implementation that provides MD4 hashing and DES chiper (e.g.,
+<a href="http://www.cryptix.org/">Cryptix JCE</a>);</li>
+<li><a href="http//www.innovation.ch/">HTTPClient</a> to perform the NTLM
+authentication over HTTP.</li>
+</ul>
+<h2><a name="download">Download</a></h2>
+<p>
+The latest version is available <a href="http://www.luigidragone.com/networking/ntlm.zip">here</a>.
+The zipped file contains source code, compiled byte code and documentation.
+</p>
+<h2><a name="instructions">Instructions</a></h2>
+<p>
+In this sections we explain how to use this library to perform an NTLM
+authentication over HTTP using the HTTPClient and JCE compliant library.
+</p>
+<p>
+Set the <var>CLASSPATH</var> accordingly to contains:
+<ul>
+<li>the classes of this package;</li>
+<li>the HTTPClient library;</li>
+<li>the JCE compliant library.</li>
+</ul>
+To use these classes you need to put the file <code>ntlm.jar</code> in the
+<var>CLASSPATH</var>, see thier own instructions to install the other
+elements.
+To perform an authentication the following information are needed:
+<ul>
+<li>the host name (with its own domain);</li>
+<li>the user name (with its own domain);</li>
+<li>the user password.</li>
+</ul>
+Alternatively, the user password can be replaced with its Lan Manager and
+NT hashed versions. On a Windows system these can be collected in the registry
+(with a bit of JNI, so), otherwise can be extracted from a SAMBA password
+file. Notice that the host and user domain could not be the same.
+As first step you need to register the JCE compliant components. Each library
+defines its own provider, e.g., if you use Cryptix JCE you need to execute
+the following instruction:<br>
+<pre>
+      Security.addProvider(new cryptix.jce.provider.CryptixCrypto());
+</pre>
+This task can be performed in the static initializer of the main class.
+Use these data as argument to class constructor to create a new authorization
+object:<br>
+<pre>
+	HTTPClient.AuthorizationHandler ntlm = new NTLMAuthorizationHandler(host,
+		hostDomain, user, userDomain, password);
+	HTTPClient.AuthorizationInfo.setAuthHandler(ntlm);
+</pre>
+If the client is behind a proxy server, set accordingly the Java system
+properties <var>http.proxyHost</var> and <var>http.proxyPort</var>.
+The authorization handler must be set before opening any connection, thus it
+could be done in a (static or instance) initializer or in a constructor.
+After the setting of the authorization handler HTTP connections can be used
+as usual.</p>
+<p>It is also possibile store authentication information in the following system
+properties:
+<ul>
+<li><var>com.luigidragone.net.ntlm.host</var>;</li>
+<li><var>com.luigidragone.net.ntlm.user</var>;</li>
+<li><var>com.luigidragone.net.ntlm.hostDomain</var>;</li>
+<li><var>com.luigidragone.net.ntlm.userDomain</var>;</li>
+<li><var>com.luigidragone.net.ntlm.password</var>.</li>
+</ul>
+Then use the parameter-less constructor to obtain a new authorization handler.
+</p>
+The HTTPClient can override the standard Sun HTTP protocol handler, in this case
+all existing programs that rely on this one can work with this new component
+without any adjustment.  It is enough to set the Java system property
+<var>java.protocol.handler.pkgs</var> to the value <code>HTTPClient</code>.
+</p>
+<p>
+See class documentation and links at the bottom of the page to more
+information.
+</p>
+<h2><a name="links">Links</a></h2>
+<ul>
+<li><a href="http://www.innovation.ch/java/ntlm.html">NTLM Authentication Scheme for HTTP</a></li>
+<li><a href="http://www.innovation.ch/">HTTPClient</a></li>
+<li><a href="http://rfc.net/rfc2616.html">Hypertext Transfer Protocol -- HTTP/1.1</a></li>
+<li><a href="http://rfc.net/rfc2617.html">HTTP Authentication: Basic and Digest Access Authentication</a></li>
+<li><a href="ftp://ftp.samba.org/pub/samba/docs/textdocs/ENCRYPTION.txt">LanMan and NT Password Encryption in Samba 2.x</a></li>
+<li><a href="http://www.cacr.math.uwaterloo.ca/hac/">&quot;Handbook of Applied Cryptography&quot;</a></li>
+<li><a href="http://java.sun.com/products/jce/">JCE</a></li>
+<li><a href="http://www.cryptix.org/">Cryptix</a></li>
+</ul>
+<hr>
+<p>
+<a href="mailto:luigi@luigidragone.com">luigi@luigidragone.com</a>.
+</p>
+</body>
+</html>
